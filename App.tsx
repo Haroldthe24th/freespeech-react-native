@@ -4,6 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { TileGrid, SentenceBuilder } from "./src/components";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SpeechProvider } from "./src/contexts/SpeechContext";
+import BottomNavigation from "./src/components/BottomNavigation";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
           <SentenceBuilder />
           <TileGrid />
         </View>
+        <BottomNavigation />
       </SafeAreaView>
     </SpeechProvider>
   );
