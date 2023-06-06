@@ -1,6 +1,14 @@
 import { create } from "zustand";
-import { Page, Project, Tile } from "./types";
+import { AppMode, Page, Project, Tile } from "./types";
 import english from "../layouts/english";
+
+export const useAppModeStore = create<{
+  appMode: AppMode;
+  setAppMode: (mode: AppMode) => void;
+}>((set) => ({
+  appMode: "home",
+  setAppMode: (mode) => set({ appMode: mode }),
+}));
 
 export const useSentenceBuilderStore = create<{
   sentence: Tile[];

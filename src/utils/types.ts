@@ -1,8 +1,4 @@
-export default interface TileType {
-  id: string;
-  text: string;
-  img: string;
-}
+export type AppMode = "home" | "edit" | "dashboard";
 
 export type Tile = {
   text: string;

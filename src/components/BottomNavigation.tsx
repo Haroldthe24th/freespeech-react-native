@@ -1,6 +1,7 @@
 import { View, Pressable, Text, StyleSheet } from "react-native";
 import { surface } from "../utils/colors";
-import { useProjectStore } from "../utils/stores";
+import { useAppModeStore, useProjectStore } from "../utils/stores";
+import { AppMode } from "../utils/types";
 
 const BottomNavigation = () => {
   const selectedBtn = [
@@ -9,18 +10,19 @@ const BottomNavigation = () => {
   ];
 
   const resetBackToHome = useProjectStore((state) => state.resetBackToHome);
+  const { appMode, setAppMode } = useAppModeStore();
 
   const buttons = [
     {
-      text: "Home",
+      text: "home",
       onPress: () => resetBackToHome(),
     },
     {
-      text: "Edit",
+      text: "edit",
       onPress: () => null,
     },
     {
-      text: "Dashboard",
+      text: "dashboard",
       onPress: () => null,
     },
   ];
@@ -30,8 +32,11 @@ const BottomNavigation = () => {
       {buttons.map((button) => (
         <Pressable
           key={button.text}
-          style={button.text === "Home" ? selectedBtn : styles.navButton}
-          onPress={button.onPress}
+          style={button.text === appMode ? selectedBtn : styles.navButton}
+          onPress={() => {
+            button.onPress();
+            setAppMode(button.text as AppMode);
+          }}
         >
           <Text style={styles.navButtonText}>{button.text}</Text>
         </Pressable>
@@ -57,6 +62,7 @@ const styles = StyleSheet.create({
   navButtonText: {
     color: surface.text,
     fontSize: 20,
+    textTransform: "capitalize",
   },
 });
 
