@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet } from "react-native";
 import english from "../layouts/english";
-import type { Tile as ITile } from "../types";
+import type { Tile as ITile } from "../utils/types";
 import Tile from "./Tile";
-import { useProjectStore } from "../stores";
+import { useProjectStore } from "../utils/stores";
 
 const TileGrid = () => {
   const gridCols = 6;

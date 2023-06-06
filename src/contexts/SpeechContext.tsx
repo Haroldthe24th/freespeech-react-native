@@ -1,6 +1,6 @@
 import { ReactElement, createContext } from "react";
 import useSpeech from "../hooks/useSpeech";
-import { useSentenceBuilderStore } from "../stores";
+import { useSentenceBuilderStore } from "../utils/stores";
 
 export const SpeechContext = createContext<{
   speak: (text: string) => void;

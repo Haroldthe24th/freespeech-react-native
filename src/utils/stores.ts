@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { Page, Project, Tile } from "./types";
-import english from "./layouts/english";
+import english from "../layouts/english";
 
 export const useSentenceBuilderStore = create<{
   sentence: Tile[];

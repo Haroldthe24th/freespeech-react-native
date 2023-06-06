@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { StyleSheet, Pressable, Text, View, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Tile from "./Tile";
-import { useSentenceBuilderStore } from "../stores";
+import { useSentenceBuilderStore } from "../utils/stores";
 import { SpeechContext } from "../contexts/SpeechContext";
 
 export const SentenceBuilderPressable = ({

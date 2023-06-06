@@ -1,4 +1,4 @@
-import { Project } from "../types";
+import { Project } from "../utils/types";
 
 const Home = {
   name: "home",

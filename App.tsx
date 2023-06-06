@@ -1,9 +1,9 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
-import { TileGrid, SentenceBuilder } from "./components";
+import { TileGrid, SentenceBuilder } from "./src/components";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { SpeechProvider } from "./contexts/SpeechContext";
+import { SpeechProvider } from "./src/contexts/SpeechContext";
 
 export default function App() {
   return (

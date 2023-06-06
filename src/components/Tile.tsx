@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { Tile as ITile } from "../types";
+import { Tile as ITile } from "../utils/types";
 import { SpeechContext } from "../contexts/SpeechContext";
-import { useProjectStore, useSentenceBuilderStore } from "../stores";
+import { useProjectStore, useSentenceBuilderStore } from "../utils/stores";
 
 export default function Tile({
   text,
