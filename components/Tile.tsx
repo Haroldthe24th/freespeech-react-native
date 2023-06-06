@@ -2,11 +2,12 @@ import React, { useContext } from "react";
 import { Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Tile as ITile } from "../types";
 import { SpeechContext } from "../contexts/SpeechContext";
-import { useSentenceBuilderStore } from "../stores";
+import { useProjectStore, useSentenceBuilderStore } from "../stores";
 
 export default function Tile({
   text,
   image,
+  folder,
   noflex,
   callback,
 }: ITile & { callback?: Function; noflex?: boolean }) {
@@ -17,9 +18,12 @@ export default function Tile({
 
   const { speak } = useContext(SpeechContext);
   const addWord = useSentenceBuilderStore((state) => state.addWord);
+  const setCurrentPage = useProjectStore((state) => state.setCurrentPage);
 
   const handlePress = () => {
     if (callback) return callback();
+    if (folder) return setCurrentPage(folder);
+    console.log(folder);
     speak(text);
     addWord({ text, image });
   };

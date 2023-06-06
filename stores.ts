@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { Tile } from "./types";
+import { Page, Project, Tile } from "./types";
+import english from "./layouts/english";
 
 export const useSentenceBuilderStore = create<{
   sentence: Tile[];
@@ -17,4 +18,18 @@ export const useSentenceBuilderStore = create<{
       sentence: state.sentence.filter((_, i) => i !== index),
     })),
   clearSentence: () => set({ sentence: [] }),
+}));
+
+export const useProjectStore = create<{
+  project: Project;
+  currentPage: Page;
+  setCurrentPage: (page: string) => void;
+}>((set) => ({
+  project: english,
+  currentPage: english.pages.find((page) => page.name === "home")!,
+  setCurrentPage: (page) => {
+    set((state) => ({
+      currentPage: state.project.pages.find((p) => p.name === page)!,
+    }));
+  },
 }));

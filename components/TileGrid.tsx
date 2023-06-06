@@ -2,13 +2,14 @@ import { View, Text, StyleSheet } from "react-native";
 import english from "../layouts/english";
 import type { Tile as ITile } from "../types";
 import Tile from "./Tile";
+import { useProjectStore } from "../stores";
 
 const TileGrid = () => {
   const gridCols = 6;
 
-  const homePage = english.pages.find((page) => page.name === "home");
-  if (!homePage) return <Text>Page not found</Text>;
-  const tileMatrix = homePage.tiles.reduce(
+  const currentPage = useProjectStore((state) => state.currentPage);
+
+  const tileMatrix = currentPage.tiles.reduce(
     (resultArray: ITile[][], item, index) => {
       const chunkIndex = Math.floor(index / gridCols);
       if (!resultArray[chunkIndex]) {
@@ -26,13 +27,7 @@ const TileGrid = () => {
         return (
           <View style={styles.tileRow} key={"tile-row-" + index}>
             {row.map((item: ITile, index: number) => {
-              return (
-                <Tile
-                  image={item.image + ""}
-                  text={item.text}
-                  key={"tile-item-" + index}
-                />
-              );
+              return <Tile {...item} key={"tile-item-" + index} />;
             })}
           </View>
         );
