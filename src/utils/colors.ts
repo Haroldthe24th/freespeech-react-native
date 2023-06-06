@@ -6,11 +6,13 @@ export const surface = {
   border: "#3f3f46",
 };
 
-export const tiles = {
-  bg: "#e4e4e7",
-  tile: "#fafafa",
+export const tile = {
+  bg: "#fafafa",
   text: "#18181b",
   border: "#3f3f46",
+};
+export const tiles = {
+  bg: "#e4e4e7",
 };
 
 export const primary = {

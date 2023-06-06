@@ -1,5 +1,5 @@
-import SentenceBuilder from "./SentenceBuilder";
-import TileGrid from "./TileGrid";
 import BottomNavigation from "./BottomNavigation";
+import MainApplication from "./MainApplication";
+import Dashboard from "./Dashboard";
 
-export { SentenceBuilder, TileGrid, BottomNavigation };
+export { BottomNavigation, MainApplication, Dashboard };

@@ -3,13 +3,13 @@ import { Text, StyleSheet, Pressable, Image } from "react-native";
 import { Tile as ITile } from "../utils/types";
 import { SpeechContext } from "../contexts/SpeechContext";
 import { useProjectStore, useSentenceBuilderStore } from "../utils/stores";
+import { tile } from "../utils/colors";
 
 export default function Tile({
   text,
   image,
   folder,
   noflex,
-  invisible,
   callback,
 }: ITile & { callback?: Function; noflex?: boolean }) {
   const [opacity, setOpacity] = useState(1);
@@ -17,7 +17,7 @@ export default function Tile({
   const tileStyles = [
     styles.container,
     noflex ? styles.containerNoFlex : styles.containerFlex,
-    invisible ? { opacity: 0 } : { opacity }, // Use opacity state in styles
+    { opacity },
   ];
 
   const { speak } = useContext(SpeechContext);
@@ -25,12 +25,10 @@ export default function Tile({
   const setCurrentPage = useProjectStore((state) => state.setCurrentPage);
 
   const handlePressIn = () => {
-    if (invisible) return;
     setOpacity(0.5);
   };
 
   const handlePressOut = () => {
-    if (invisible) return;
     setOpacity(1);
     if (callback) return callback();
     if (folder) return setCurrentPage(folder);
@@ -61,9 +59,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
-    borderColor: "black",
     borderRadius: 10,
     padding: 10,
+    backgroundColor: tile.bg,
+    borderColor: tile.border,
   },
   containerFlex: {
     flex: 1,
@@ -80,5 +79,5 @@ const styles = StyleSheet.create({
     maxHeight: 100,
     flex: 1,
   },
-  text: { fontSize: 16, fontWeight: "bold" },
+  text: { fontSize: 16, color: tile.text },
 });

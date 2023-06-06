@@ -1,31 +1,20 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
-import { TileGrid, SentenceBuilder } from "./src/components";
+import { MainApplication, Dashboard, BottomNavigation } from "./src/components";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SpeechProvider } from "./src/contexts/SpeechContext";
-import BottomNavigation from "./src/components/BottomNavigation";
+import { useAppModeStore } from "./src/utils/stores";
 
 export default function App() {
+  const appMode = useAppModeStore((state) => state.appMode);
   return (
     <SpeechProvider>
       <SafeAreaView style={{ flex: 1 }}>
         <StatusBar style="auto" />
-        <View style={styles.appContainer}>
-          <SentenceBuilder />
-          <TileGrid />
-        </View>
+        {appMode === "dashboard" ? <Dashboard /> : <MainApplication />}
         <BottomNavigation />
       </SafeAreaView>
     </SpeechProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  appContainer: {
-    flex: 1,
-    padding: 10,
-    paddingTop: 20,
-    gap: 10,
-  },
-});

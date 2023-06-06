@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 100,
     gap: 10,
+    paddingHorizontal: 10,
   },
   sentenceBuilderTiles: {
     flex: 1,

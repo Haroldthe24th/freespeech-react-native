@@ -1,13 +1,31 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import type { Tile as ITile } from "../utils/types";
 import Tile from "./Tile";
 import useTileMatrix from "../hooks/useTileMatrix"; // import the new custom hook
+import { useAppModeStore, useProjectStore } from "../utils/stores";
+import { tiles } from "../utils/colors";
+
+const InvisibleTile = ({ x, y, subpageIndex }: ITile) => {
+  return <View key={`${x}-${y}-${subpageIndex}`} style={{ flex: 1 }}></View>;
+};
+
+const AddTileButton = ({ x, y, subpageIndex }: ITile) => {
+  return (
+    <View
+      key={`${x}-${y}-${subpageIndex}`}
+      style={{ flex: 1, backgroundColor: "red" }}
+    >
+      <Text style={{ color: "white" }}>
+        {x}, {y}
+      </Text>
+    </View>
+  );
+};
 
 const TileGrid = () => {
-  const gridCols = 6;
-  const gridRows = 4;
-
-  const tileMatrix = useTileMatrix(gridCols, gridRows);
+  const appMode = useAppModeStore((state) => state.appMode);
+  const project = useProjectStore((state) => state.project);
+  const tileMatrix = useTileMatrix(project.columns, project.rows);
 
   return (
     <View style={styles.tileGrid}>
@@ -15,7 +33,22 @@ const TileGrid = () => {
         return (
           <View style={styles.tileRow} key={"tile-row-" + index}>
             {row.map((item: ITile, index: number) => {
-              return <Tile {...item} key={"tile-item-" + index} />;
+              // If the item is flagged as invisible, that means there's a blank
+              // spot in the grid.
+              if (item.invisible) {
+                if (appMode === "edit") {
+                  return <AddTileButton {...item} />;
+                } else {
+                  return <InvisibleTile {...item} />;
+                }
+              }
+
+              return (
+                <Tile
+                  {...item}
+                  key={`${item.x}-${item.y}-${item.subpageIndex}`}
+                />
+              );
             })}
           </View>
         );
@@ -34,6 +67,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     gap: 10,
+    backgroundColor: tiles.bg,
+    padding: 10,
   },
 });
 
