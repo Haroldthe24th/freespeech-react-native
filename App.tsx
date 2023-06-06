@@ -14,6 +14,7 @@ import TileType from "./types";
 import { Tile } from "./components";
 import type { Tile as ITile } from "./types";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Icon from "react-native-vector-icons/Ionicons";
 
 export default function App() {
   const [sayList, setSayList] = useState<TileType[]>([]);
@@ -56,6 +57,10 @@ export default function App() {
     });
     speak(sayString);
   };
+  const clearSentence = () => {
+    setSayList([]);
+    setSayExists({});
+  };
 
   const gridCols = 6;
 
@@ -96,8 +101,17 @@ export default function App() {
               );
             })}
           </ScrollView>
+          <Pressable style={styles.trashButton} onPress={clearSentence}>
+            <Text style={{ color: "white", fontSize: 15, fontWeight: "700" }}>
+              Clear
+            </Text>
+            <Icon name="trash-sharp" size={50} color="#FFFFFF" />
+          </Pressable>
           <Pressable style={styles.speakButton} onPress={speakPhrase}>
-            <Text style={{ color: "white" }}>Speak</Text>
+            <Text style={{ color: "white", fontSize: 15, fontWeight: "700" }}>
+              Speak
+            </Text>
+            <Icon name="volume-high-sharp" size={50} color="#FFFFFF" />
           </Pressable>
         </View>
         <View style={styles.tileGrid}>
@@ -148,12 +162,22 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   speakButton: {
-    height: "100%",
-    aspectRatio: 1,
+    width: 125,
+    height: 125,
     backgroundColor: "#3b82f6",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
+    gap: 5,
+  },
+  trashButton: {
+    width: 125,
+    height: 125,
+    backgroundColor: "#ef4444",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    gap: 5,
   },
   tileGrid: {
     flex: 1,
