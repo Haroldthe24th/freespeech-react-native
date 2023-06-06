@@ -13,6 +13,7 @@ export type Tile = {
   folder?: string;
   color?: string;
   deleted?: boolean;
+  invisible?: boolean;
 };
 
 export type Page = {

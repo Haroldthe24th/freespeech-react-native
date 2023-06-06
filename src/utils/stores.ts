@@ -24,12 +24,18 @@ export const useProjectStore = create<{
   project: Project;
   currentPage: Page;
   setCurrentPage: (page: string) => void;
+  resetBackToHome: () => void;
 }>((set) => ({
   project: english,
   currentPage: english.pages.find((page) => page.name === "home")!,
   setCurrentPage: (page) => {
     set((state) => ({
       currentPage: state.project.pages.find((p) => p.name === page)!,
+    }));
+  },
+  resetBackToHome: () => {
+    set((state) => ({
+      currentPage: state.project.pages.find((p) => p.name === "home")!,
     }));
   },
 }));

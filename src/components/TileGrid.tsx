@@ -1,25 +1,13 @@
-import { View, Text, StyleSheet } from "react-native";
-import english from "../layouts/english";
+import { View, StyleSheet } from "react-native";
 import type { Tile as ITile } from "../utils/types";
 import Tile from "./Tile";
-import { useProjectStore } from "../utils/stores";
+import useTileMatrix from "../hooks/useTileMatrix"; // import the new custom hook
 
 const TileGrid = () => {
   const gridCols = 6;
+  const gridRows = 4;
 
-  const currentPage = useProjectStore((state) => state.currentPage);
-
-  const tileMatrix = currentPage.tiles.reduce(
-    (resultArray: ITile[][], item, index) => {
-      const chunkIndex = Math.floor(index / gridCols);
-      if (!resultArray[chunkIndex]) {
-        resultArray[chunkIndex] = []; // start a new chunk
-      }
-      resultArray[chunkIndex].push(item);
-      return resultArray;
-    },
-    []
-  );
+  const tileMatrix = useTileMatrix(gridCols, gridRows);
 
   return (
     <View style={styles.tileGrid}>

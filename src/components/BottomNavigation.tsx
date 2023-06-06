@@ -1,5 +1,6 @@
 import { View, Pressable, Text, StyleSheet } from "react-native";
 import { surface } from "../utils/colors";
+import { useProjectStore } from "../utils/stores";
 
 const BottomNavigation = () => {
   const selectedBtn = [
@@ -7,14 +8,32 @@ const BottomNavigation = () => {
     { backgroundColor: surface.highlight },
   ];
 
+  const resetBackToHome = useProjectStore((state) => state.resetBackToHome);
+
+  const buttons = [
+    {
+      text: "Home",
+      onPress: () => resetBackToHome(),
+    },
+    {
+      text: "Edit",
+      onPress: () => null,
+    },
+    {
+      text: "Dashboard",
+      onPress: () => null,
+    },
+  ];
+
   return (
     <View style={styles.bottomNavContainer}>
-      {["Home", "Edit", "Dashboard"].map((text) => (
+      {buttons.map((button) => (
         <Pressable
-          key={text}
-          style={text === "Home" ? selectedBtn : styles.navButton}
+          key={button.text}
+          style={button.text === "Home" ? selectedBtn : styles.navButton}
+          onPress={button.onPress}
         >
-          <Text style={styles.navButtonText}>{text}</Text>
+          <Text style={styles.navButtonText}>{button.text}</Text>
         </Pressable>
       ))}
     </View>
@@ -37,6 +56,7 @@ const styles = StyleSheet.create({
   },
   navButtonText: {
     color: surface.text,
+    fontSize: 20,
   },
 });
 

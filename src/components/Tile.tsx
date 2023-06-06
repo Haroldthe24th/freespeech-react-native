@@ -9,11 +9,13 @@ export default function Tile({
   image,
   folder,
   noflex,
+  invisible,
   callback,
 }: ITile & { callback?: Function; noflex?: boolean }) {
   const tileStyles = [
     styles.container,
     noflex ? styles.containerNoFlex : styles.containerFlex,
+    invisible ? { opacity: 0 } : {},
   ];
 
   const { speak } = useContext(SpeechContext);
@@ -23,7 +25,6 @@ export default function Tile({
   const handlePress = () => {
     if (callback) return callback();
     if (folder) return setCurrentPage(folder);
-    console.log(folder);
     speak(text);
     addWord({ text, image });
   };
@@ -31,11 +32,13 @@ export default function Tile({
   return (
     <TouchableOpacity style={tileStyles} onPress={handlePress}>
       <Text style={styles.text}>{text}</Text>
-      <Image
-        style={styles.image}
-        source={{ uri: image }}
-        resizeMode="contain"
-      />
+      {image && (
+        <Image
+          style={styles.image}
+          source={{ uri: image }}
+          resizeMode="contain"
+        />
+      )}
     </TouchableOpacity>
   );
 }
@@ -56,6 +59,7 @@ const styles = StyleSheet.create({
   containerNoFlex: {
     flex: 0,
     marginRight: 10,
+    minWidth: 100,
   },
   image: {
     borderRadius: 10,

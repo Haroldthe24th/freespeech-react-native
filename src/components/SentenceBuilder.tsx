@@ -1,5 +1,11 @@
 import React, { useContext } from "react";
-import { StyleSheet, Pressable, Text, View, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View,
+  ScrollView,
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Tile from "./Tile";
 import { useSentenceBuilderStore } from "../utils/stores";
@@ -19,12 +25,12 @@ export const SentenceBuilderPressable = ({
   const buttonStyles = [styles.button, { backgroundColor }];
 
   return (
-    <Pressable onPress={callback} style={buttonStyles}>
+    <TouchableOpacity onPress={callback} style={buttonStyles}>
       <Text style={{ color: "white", fontSize: 15, fontWeight: "700" }}>
         {text}
       </Text>
       <Icon name={icon} size={50} color="#FFFFFF" />
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 
@@ -49,7 +55,7 @@ const SentenceBuilder = () => {
         {sentenceTiles.map((item, index) => {
           return (
             <Tile
-              image={item.image + ""}
+              image={item.image}
               text={item.text}
               noflex={true}
               callback={() => removeWord(index)}
