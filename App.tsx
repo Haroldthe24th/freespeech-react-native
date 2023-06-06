@@ -8,36 +8,17 @@ import {
   Pressable,
   ScrollView,
 } from "react-native";
+import english from "./layouts/english";
 import * as Speech from "expo-speech";
 import TileType from "./types";
 import { Tile } from "./components";
+import type { Tile as ITile } from "./types";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const speechTiles = [
-  {
-    id: "0",
-    text: "hello",
-    img: "https://thumbs.dreamstime.com/b/bye-emoticon-happy-emoji-waving-goodbye-saying-gotta-go-see-you-179809104.jpg",
-  },
-  {
-    id: "1",
-    text: "world",
-    img: "https://3.bp.blogspot.com/-LHluKlzxYOQ/VfMPTrUl9mI/AAAAAAAAAOo/13KjXN8wE1A/s1600/world.jpg",
-  },
-  {
-    id: "2",
-    text: "taco",
-    img: "https://townsquare.media/site/29/files/2019/06/RS30972_ThinkstockPhotos-488498629-scr.jpg",
-  },
-  {
-    id: "3",
-    text: "eat",
-    img: "https://toppng.com/uploads/preview/free-ready-to-eat-emoji-ready-to-eat-emoji-11563208911mwpatzpxke.png",
-  },
-];
 export default function App() {
   const [sayList, setSayList] = useState<TileType[]>([]);
   const [sayExists, setSayExists] = useState<any>({}); //map of existing sayList items
+
   const addTileToPhrase = (newTileItem: TileType) => {
     speak(newTileItem.text);
     //if (sayExists[newTileItem.id] === true) return; //item already exists don't add it
@@ -75,6 +56,23 @@ export default function App() {
     });
     speak(sayString);
   };
+
+  const gridCols = 6;
+
+  const homePage = english.pages.find((page) => page.name === "home");
+  if (!homePage) return <Text>Page not found</Text>;
+  const tileMatrix = homePage.tiles.reduce(
+    (resultArray: ITile[][], item, index) => {
+      const chunkIndex = Math.floor(index / gridCols);
+      if (!resultArray[chunkIndex]) {
+        resultArray[chunkIndex] = []; // start a new chunk
+      }
+      resultArray[chunkIndex].push(item);
+      return resultArray;
+    },
+    []
+  );
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar style="auto" />
@@ -103,23 +101,23 @@ export default function App() {
           </Pressable>
         </View>
         <View style={styles.tileGrid}>
-          {Array(4)
-            .fill(0)
-            .map(() => (
-              <View style={styles.tileRow}>
-                {speechTiles.map((item: TileType, index: number) => {
+          {tileMatrix.map((row: ITile[], index: number) => {
+            return (
+              <View style={styles.tileRow} key={"tile-row-" + index}>
+                {row.map((item: ITile, index: number) => {
                   return (
                     <Tile
-                      img={item.img}
+                      img={item.image + ""}
                       text={item.text}
-                      id={item.id}
+                      id={`${item.x}${item.y}${item.subpageIndex}`}
                       callback={addTileToPhrase}
                       key={"tile-item-" + index}
                     />
                   );
                 })}
               </View>
-            ))}
+            );
+          })}
         </View>
       </View>
     </SafeAreaView>
