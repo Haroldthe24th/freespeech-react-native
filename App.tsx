@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import * as Speech from "expo-speech";
 import TileType from "./types";
 import { Tile } from "./components";
@@ -33,7 +40,7 @@ export default function App() {
   const [sayExists, setSayExists] = useState<any>({}); //map of existing sayList items
   const addTileToPhrase = (newTileItem: TileType) => {
     speak(newTileItem.text);
-    if (sayExists[newTileItem.id] === true) return; //item already exists don't add it
+    //if (sayExists[newTileItem.id] === true) return; //item already exists don't add it
     //first say this tile
     const newSayList = [...sayList];
     newSayList.push(newTileItem);
@@ -70,36 +77,49 @@ export default function App() {
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <StatusBar backgroundColor="white" />
-        <View style={styles.headerContainer}>
-          <View style={styles.imgContainer}>
+      <StatusBar style="auto" />
+      <View style={styles.appContainer}>
+        <View style={styles.sentenceBuilder}>
+          <ScrollView
+            horizontal={true}
+            style={styles.sentenceBuilderTiles}
+            showsHorizontalScrollIndicator={false} // optional: hide scrollbar
+          >
             {sayList.map((item: TileType, index: number) => {
               return (
                 <Tile
                   img={item.img}
                   text={item.text}
                   id={item.id}
+                  noflex={true}
                   callback={removeTileFromPhrase}
                   key={"phrase-tile-item-" + index}
                 />
               );
             })}
-          </View>
-          <Button title="Speak Phrase" onPress={speakPhrase} />
+          </ScrollView>
+          <Pressable style={styles.speakButton} onPress={speakPhrase}>
+            <Text style={{ color: "white" }}>Speak</Text>
+          </Pressable>
         </View>
-        <View style={styles.imgContainer}>
-          {speechTiles.map((item: TileType, index: number) => {
-            return (
-              <Tile
-                img={item.img}
-                text={item.text}
-                id={item.id}
-                callback={addTileToPhrase}
-                key={"tile-item-" + index}
-              />
-            );
-          })}
+        <View style={styles.tileGrid}>
+          {Array(4)
+            .fill(0)
+            .map(() => (
+              <View style={styles.tileRow}>
+                {speechTiles.map((item: TileType, index: number) => {
+                  return (
+                    <Tile
+                      img={item.img}
+                      text={item.text}
+                      id={item.id}
+                      callback={addTileToPhrase}
+                      key={"tile-item-" + index}
+                    />
+                  );
+                })}
+              </View>
+            ))}
         </View>
       </View>
     </SafeAreaView>
@@ -107,23 +127,39 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  imgContainer: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    flexWrap: "wrap",
-  },
-  headerContainer: {
-    width: "100%",
-    marginBottom: 20,
-  },
-
-  container: {
+  tileRow: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    flexWrap: "wrap",
-    paddingHorizontal: 10,
+    flexDirection: "row",
+    gap: 10,
+  },
+  sentenceBuilderTiles: {
+    flex: 1,
+    flexDirection: "row",
+    gap: 10,
+    overflow: "scroll",
+  },
+  appContainer: {
+    flex: 1,
+    padding: 10,
+    paddingTop: 20,
+    gap: 10,
+  },
+  sentenceBuilder: {
+    flexDirection: "row",
+    height: 125,
+    gap: 10,
+  },
+  speakButton: {
+    height: "100%",
+    aspectRatio: 1,
+    backgroundColor: "#3b82f6",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+  },
+  tileGrid: {
+    flex: 1,
+    flexDirection: "column",
+    gap: 10,
   },
 });

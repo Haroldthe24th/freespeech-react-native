@@ -8,11 +8,33 @@ export default function Tile({
   text,
   img,
   id,
+  noflex,
   callback,
-}: TileType & { callback: Function }) {
+}: TileType & { callback: Function; noflex?: boolean }) {
+  const styles = StyleSheet.create({
+    container: {
+      alignItems: "center",
+      justifyContent: "center",
+      borderWidth: 1,
+      borderColor: "black",
+      borderRadius: 10,
+      padding: 10,
+      flex: noflex ? 0 : 1,
+      marginRight: noflex ? 10 : 0,
+    },
+    image: {
+      borderRadius: 10,
+      width: 100,
+      maxHeight: 100,
+      flex: 1,
+    },
+    text: { fontSize: 16, fontWeight: "bold" },
+  });
+
   const callCallback = () => {
     callback({ text, img, id });
   };
+
   return (
     <TouchableOpacity style={styles.container} onPress={callCallback}>
       <Text style={styles.text}>{text}</Text>
@@ -20,21 +42,3 @@ export default function Tile({
     </TouchableOpacity>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 10,
-    marginRight: 10,
-    marginBottom: 10,
-    marginTop: 10,
-  },
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
-  },
-  text: { fontSize: 16, fontWeight: "bold" },
-});
