@@ -1,3 +1,4 @@
-import Tile from "./Tile";
+import SentenceBuilder from "./SentenceBuilder";
+import TileGrid from "./TileGrid";
 
-export { Tile };
+export { SentenceBuilder, TileGrid };

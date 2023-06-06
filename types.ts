@@ -5,10 +5,10 @@ export default interface TileType {
 }
 
 export type Tile = {
-  x: number;
-  y: number;
   text: string;
-  subpageIndex: number;
+  subpageIndex?: number;
+  x?: number;
+  y?: number;
   image?: string;
   folder?: string;
   color?: string;

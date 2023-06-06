@@ -1,44 +1,63 @@
-import React from "react";
-import * as Speech from "expo-speech";
-
-import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
-import TileType from "../types";
+import React, { useContext } from "react";
+import { Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { Tile as ITile } from "../types";
+import { SpeechContext } from "../contexts/SpeechContext";
+import { useSentenceBuilderStore } from "../stores";
 
 export default function Tile({
   text,
-  img,
-  id,
+  image,
   noflex,
   callback,
-}: TileType & { callback: Function; noflex?: boolean }) {
-  const styles = StyleSheet.create({
-    container: {
-      alignItems: "center",
-      justifyContent: "center",
-      borderWidth: 1,
-      borderColor: "black",
-      borderRadius: 10,
-      padding: 10,
-      flex: noflex ? 0 : 1,
-      marginRight: noflex ? 10 : 0,
-    },
-    image: {
-      borderRadius: 10,
-      width: 100,
-      maxHeight: 100,
-      flex: 1,
-    },
-    text: { fontSize: 16, fontWeight: "bold" },
-  });
+}: ITile & { callback?: Function; noflex?: boolean }) {
+  const tileStyles = [
+    styles.container,
+    noflex ? styles.containerNoFlex : styles.containerFlex,
+  ];
 
-  const callCallback = () => {
-    callback({ text, img, id });
+  const { speak } = useContext(SpeechContext);
+  const addWord = useSentenceBuilderStore((state) => state.addWord);
+
+  const handlePress = () => {
+    if (callback) return callback();
+    speak(text);
+    addWord({ text, image });
   };
 
   return (
-    <TouchableOpacity style={styles.container} onPress={callCallback}>
+    <TouchableOpacity style={tileStyles} onPress={handlePress}>
       <Text style={styles.text}>{text}</Text>
-      <Image style={styles.image} source={{ uri: img }} resizeMode="contain" />
+      <Image
+        style={styles.image}
+        source={{ uri: image }}
+        resizeMode="contain"
+      />
     </TouchableOpacity>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 10,
+    padding: 10,
+  },
+  containerFlex: {
+    flex: 1,
+    marginRight: 0,
+  },
+  containerNoFlex: {
+    flex: 0,
+    marginRight: 10,
+  },
+  image: {
+    borderRadius: 10,
+    width: 100,
+    maxHeight: 100,
+    flex: 1,
+  },
+  text: { fontSize: 16, fontWeight: "bold" },
+});
