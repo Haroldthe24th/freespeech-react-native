@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import React, { useContext, useState } from "react";
+import { Text, StyleSheet, Pressable, Image } from "react-native";
 import { Tile as ITile } from "../utils/types";
 import { SpeechContext } from "../contexts/SpeechContext";
 import { useProjectStore, useSentenceBuilderStore } from "../utils/stores";
@@ -12,17 +12,26 @@ export default function Tile({
   invisible,
   callback,
 }: ITile & { callback?: Function; noflex?: boolean }) {
+  const [opacity, setOpacity] = useState(1);
+
   const tileStyles = [
     styles.container,
     noflex ? styles.containerNoFlex : styles.containerFlex,
-    invisible ? { opacity: 0 } : {},
+    invisible ? { opacity: 0 } : { opacity }, // Use opacity state in styles
   ];
 
   const { speak } = useContext(SpeechContext);
   const addWord = useSentenceBuilderStore((state) => state.addWord);
   const setCurrentPage = useProjectStore((state) => state.setCurrentPage);
 
-  const handlePress = () => {
+  const handlePressIn = () => {
+    if (invisible) return;
+    setOpacity(0.5);
+  };
+
+  const handlePressOut = () => {
+    if (invisible) return;
+    setOpacity(1);
     if (callback) return callback();
     if (folder) return setCurrentPage(folder);
     speak(text);
@@ -30,7 +39,11 @@ export default function Tile({
   };
 
   return (
-    <TouchableOpacity style={tileStyles} onPress={handlePress}>
+    <Pressable
+      style={tileStyles}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+    >
       <Text style={styles.text}>{text}</Text>
       {image && (
         <Image
@@ -39,7 +52,7 @@ export default function Tile({
           resizeMode="contain"
         />
       )}
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 
