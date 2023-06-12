@@ -1,22 +1,9 @@
 import { View, StyleSheet, Text, ScrollView } from "react-native";
 import type { Tile as ITile } from "../utils/types";
-import { Tile, InvisibleTile } from "./Tile";
+import { Tile, InvisibleTile, AddTileButton } from "./Tile";
 import useTileMatrix from "../hooks/useTileMatrix"; // import the new custom hook
 import { useAppModeStore, useProjectStore } from "../utils/stores";
 import { tiles } from "../utils/colors";
-const AddTileButton = ({ x, y, subpageIndex }: ITile) => {
-  return (
-    <View
-      key={`${x}-${y}-${subpageIndex}`}
-      style={{ flex: 1, backgroundColor: "red" }}
-    >
-      <Text style={{ color: "white" }}>
-        {x}, {y}
-      </Text>
-    </View>
-  );
-};
-
 const TileGrid = () => {
   const appMode = useAppModeStore((state) => state.appMode);
   const project = useProjectStore((state) => state.project);
@@ -30,19 +17,9 @@ const TileGrid = () => {
           // spot in the grid.
           if (item.invisible) {
             if (appMode === "edit") {
-              return (
-                <AddTileButton
-                  {...item}
-                  key={`${item.x}-${item.y}-${item.subpageIndex}`}
-                />
-              );
+              return <AddTileButton {...item} key={"add-tile-" + index} />;
             } else {
-              return (
-                <InvisibleTile
-                  {...item}
-                  key={`${item.x}-${item.y}-${item.subpageIndex}`}
-                />
-              );
+              return <InvisibleTile {...item} key={"blank-tile-" + index} />;
             }
           }
 

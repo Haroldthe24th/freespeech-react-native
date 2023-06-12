@@ -31,13 +31,20 @@ const useTileMatrix = (gridCols: number, gridRows: number) => {
         if (tileDistance > 1) {
           let newArray = [];
           for (let i = 1; i < tileDistance; i++) {
-            newArray.push({ invisible: true });
+            newArray.push({ invisible: true }); //we need a
           }
           tileMatrix.insert(j + 1 + currentOffset, ...newArray);
           currentOffset = newArray.length + currentOffset;
         }
       } catch (e) {}
     }
+    //always append a few extra blank tiles at the end
+    tileMatrix.push({ invisible: true });
+    tileMatrix.push({ invisible: true });
+    tileMatrix.push({ invisible: true });
+    tileMatrix.push({ invisible: true });
+    tileMatrix.push({ invisible: true });
+    tileMatrix.push({ invisible: true });
 
     setTileMatrix(tileMatrix);
   }, [currentPage]);

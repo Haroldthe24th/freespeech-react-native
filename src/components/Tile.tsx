@@ -73,6 +73,24 @@ export const InvisibleTile = ({ x, y, subpageIndex }: ITile) => {
     ></View>
   );
 };
+export const AddTileButton = ({}: ITile) => {
+  return (
+    <TouchableOpacity
+      style={{
+        ...styles.containerFlex,
+        height: 150,
+        borderColor: tile.border,
+        borderWidth: 2,
+        borderRadius: 10,
+        borderStyle: "dashed",
+        alignItems:'center',
+        justifyContent:'center'
+      }}
+    >
+      <Entypo name="plus" size={60} color="black" />
+    </TouchableOpacity>
+  );
+};
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
