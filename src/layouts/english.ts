@@ -119,41 +119,9 @@ const Home = {
       text: "Sleep",
       image: "https://pub-3aabe8e9655b4a5eb94c0efbaa7142a1.r2.dev/sleep.webp",
     },
+
     {
-      x: 3,
-      y: 2,
-      subpageIndex: 0,
-      text: "Clothing",
-      folder: "clothing",
-      image: "https://pub-3aabe8e9655b4a5eb94c0efbaa7142a1.r2.dev/clothing.png",
-    },
-    {
-      x: 4,
-      y: 2,
-      subpageIndex: 0,
-      text: "Personal Care",
-      folder: "personal care",
-      image:
-        "https://pub-3aabe8e9655b4a5eb94c0efbaa7142a1.r2.dev/personal-care.png",
-    },
-    {
-      x: 5,
-      y: 2,
-      subpageIndex: 0,
-      text: "Medical",
-      folder: "medical",
-      image: "https://pub-3aabe8e9655b4a5eb94c0efbaa7142a1.r2.dev/medical.png",
-    },
-    {
-      x: 0,
-      y: 3,
-      subpageIndex: 0,
-      text: "Leisure",
-      folder: "leisure",
-      image: "https://pub-3aabe8e9655b4a5eb94c0efbaa7142a1.r2.dev/leisure.png",
-    },
-    {
-      x: 1,
+      x: 2,
       y: 3,
       subpageIndex: 0,
       text: "Social Interactions",
@@ -161,14 +129,7 @@ const Home = {
       image:
         "https://pub-3aabe8e9655b4a5eb94c0efbaa7142a1.r2.dev/social-interactions.png",
     },
-    {
-      x: 2,
-      y: 3,
-      subpageIndex: 0,
-      text: "Emotions",
-      folder: "emotions",
-      image: "https://pub-3aabe8e9655b4a5eb94c0efbaa7142a1.r2.dev/emotions.png",
-    },
+
     {
       x: 3,
       y: 3,
@@ -178,8 +139,9 @@ const Home = {
       image:
         "https://pub-3aabe8e9655b4a5eb94c0efbaa7142a1.r2.dev/time-and-calender.png",
     },
+
     {
-      x: 4,
+      x: 5,
       y: 3,
       subpageIndex: 0,
       text: "Weather",
@@ -188,7 +150,15 @@ const Home = {
     },
     {
       x: 5,
-      y: 3,
+      y: 5,
+      subpageIndex: 0,
+      text: "School",
+      folder: "school",
+      image: "https://pub-3aabe8e9655b4a5eb94c0efbaa7142a1.r2.dev/school.jpg",
+    },
+    {
+      x: 0,
+      y: 7,
       subpageIndex: 0,
       text: "School",
       folder: "school",

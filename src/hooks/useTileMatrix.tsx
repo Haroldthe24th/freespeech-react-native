@@ -3,38 +3,43 @@ import { useEffect, useState } from "react";
 import type { Tile as ITile } from "../utils/types";
 import { useProjectStore } from "../utils/stores";
 
+//TODO: clean this up
+Array.prototype.insert = function (index, ...items) {
+  this.splice(index, 0, ...items);
+};
 const useTileMatrix = (gridCols: number, gridRows: number) => {
   const currentPage = useProjectStore((state) => state.currentPage);
-  const [tileMatrix, setTileMatrix] = useState<ITile[][]>([]);
+  const [tileMatrix, setTileMatrix] = useState<any>([]);
 
   useEffect(() => {
-    let tilesWithBlanks: ITile[] = [...currentPage.tiles];
+    const tileMatrix = [...currentPage.tiles];
+    let currentOffset = 0; //we are adding elements to this array, keep track of how many we add to use as an offset
 
-    const totalGridTiles = gridCols * gridRows;
-    const blankTileCount = totalGridTiles - tilesWithBlanks.length;
+    for (let j = 0; j < currentPage.tiles.length; j++) {
+      try {
+        //comparex j and j + 1 for empty spaces
+        const x1 = currentPage.tiles[j].x;
+        const y1 = currentPage.tiles[j].y;
 
-    for (let i = 0; i < blankTileCount; i++) {
-      tilesWithBlanks.push({
-        x: i % gridCols,
-        y: Math.floor(i / gridCols),
-        text: "",
-        invisible: true,
-      });
+        const x2 = currentPage.tiles[j + 1].x;
+        const y2 = currentPage.tiles[j + 1].y;
+
+        const disY = Math.abs(y2 - y1) * gridCols; //total number of tiles between the two rows
+        const distX = Math.abs(x1 - gridCols) - Math.abs(x2 - gridCols); //offset x from each row
+        const tileDistance = Math.abs(disY + distX); //add together for total distance of tiles
+
+        if (tileDistance > 1) {
+          let newArray = [];
+          for (let i = 1; i < tileDistance; i++) {
+            newArray.push({ invisible: true });
+          }
+          tileMatrix.insert(j + 1 + currentOffset, ...newArray);
+          currentOffset = newArray.length + currentOffset;
+        }
+      } catch (e) {}
     }
 
-    const matrix = tilesWithBlanks.reduce(
-      (resultArray: ITile[][], item, index) => {
-        const chunkIndex = Math.floor(index / gridCols);
-        if (!resultArray[chunkIndex]) {
-          resultArray[chunkIndex] = [];
-        }
-        resultArray[chunkIndex].push(item);
-        return resultArray;
-      },
-      []
-    );
-
-    setTileMatrix(matrix);
+    setTileMatrix(tileMatrix);
   }, [currentPage]);
 
   return tileMatrix;
